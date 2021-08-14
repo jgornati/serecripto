@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Cripto;
+use GuzzleHttp\Client;
 
 class CotizacionCriptoService
 {
@@ -23,18 +24,30 @@ class CotizacionCriptoService
 
     function getETH()
     {
-
         try {
+            $this->client = new Client([
+                // Base URI is used with relative requests
+                'base_uri' => "https://hiveon.net/",
+                // You can set any number of default request options.
+                'timeout' => 200.0,
+            ]);
 
-            return $res;
+            $res = $this->client->request('GET', "api/v1/stats/pool");
+            $response = json_decode($res->getBody(), true);
+
+            $fechaHora = (new \DateTime())->setTimezone(new \DateTimeZone("America/Argentina/Buenos_Aires"));
+            $response["fechaHora"] = $fechaHora;
+
+            return $response;
 
         } catch (\Exception $e) {
-            \Log::info('Esperando moneda');
+            \Log::info('Hubo un error 😩esperando moneda');
             if ($this->tries < $this->maxTries) {
                 $this->tries++;
                 sleep(30);
                 $this->getETH();
-            } else return 0;
+            } else
+                return 0;
         }
     }
 }

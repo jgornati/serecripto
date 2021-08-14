@@ -7,21 +7,21 @@ use Illuminate\Console\Command;
 use NunoMaduro\Collision\Exceptions\ShouldNotHappen;
 use Revolution\Google\Sheets\Sheets;
 
-class CotizacionETHCommand extends Command
+class CotizacionETCCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'cotizacion:ETH';
+    protected $signature = 'cotizacion:ETC';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Obtiene la cotizacion del ETH';
+    protected $description = 'Obtiene la cotizacion del ETC';
 
     /**
      * Create a new command instance.
@@ -71,15 +71,15 @@ class CotizacionETHCommand extends Command
 //        \Log::info($currencysArray);
 
         $sheets->spreadsheet('1l6AsUXV-6yqQ3EM-qLdXBCRXPgfJtA5PL32mOx48dWI')
-            ->sheet('ETH')
+            ->sheet('ETC')
             ->append([[
                 $cotizacion['fechaHora']->format('Y-m-d H:m:s'),
-                $cotizacion['stats']["ETH"]['expectedReward24H'],
-                $cotizacion['stats']["ETH"]['meanExpectedReward24H'],
-                $cotizacion['stats']["ETH"]['threshold'],
-                $cotizacion['stats']["ETH"]['exchangeRates']['USD'],
-                $cotizacion['stats']["ETH"]['hashrate'],
-                $cotizacion['stats']["ETH"]['blocksFound']
+                $cotizacion['stats']["ETC"]['expectedReward24H'],
+                $cotizacion['stats']["ETC"]['meanExpectedReward24H'],
+                $cotizacion['stats']["ETC"]['threshold'],
+                $cotizacion['stats']["ETC"]['exchangeRates']['USD'],
+                $cotizacion['stats']["ETC"]['hashrate'],
+                $cotizacion['stats']["ETC"]['blocksFound']
             ]]);
     }
 }

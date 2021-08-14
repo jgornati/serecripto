@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\CotizacionETCCommand::class,
+        Commands\CotizacionETHCommand::class,
     ];
 
     /**
@@ -25,6 +26,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('cotizacion:ETH')
+            ->everyThirtyMinutes()->withoutOverlapping();
+        $schedule->command('cotizacion:ETC')
+            ->everyThirtyMinutes()->withoutOverlapping();
     }
 
     /**
