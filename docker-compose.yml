@@ -1,0 +1,50 @@
+version: "3.7"
+services:
+    app:
+        build:
+            args:
+                user: joelg
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        image: serecripto
+        container_name: serecripto-app
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        networks:
+            - serecripto
+
+    db:
+        image: mysql:5.7
+        container_name: serecripto-db
+        restart: unless-stopped
+        ports:
+            - 3306:3306
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+            - ./docker-compose/mysql/data/:/var/lib/mysql
+        networks:
+            - serecripto
+
+    nginx:
+        image: nginx:alpine
+        container_name: serecripto-nginx
+        restart: unless-stopped
+        ports:
+            - "8000:80"
+        volumes:
+            - ./:/var/www
+            - ./docker-compose/nginx:/etc/nginx/conf.d
+        networks:
+            - serecripto
+
+networks:
+    serecripto:
