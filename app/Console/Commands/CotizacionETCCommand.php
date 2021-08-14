@@ -73,7 +73,7 @@ class CotizacionETCCommand extends Command
         $sheets->spreadsheet('1l6AsUXV-6yqQ3EM-qLdXBCRXPgfJtA5PL32mOx48dWI')
             ->sheet('ETC')
             ->append([[
-                $cotizacion['fechaHora']->format('Y-m-d H:m:s'),
+                $cotizacion['fechaHora']->format('Y-m-d H:i:s'),
                 $cotizacion['stats']["ETC"]['expectedReward24H'],
                 $cotizacion['stats']["ETC"]['meanExpectedReward24H'],
                 $cotizacion['stats']["ETC"]['threshold'],
